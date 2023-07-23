@@ -211,7 +211,12 @@ body {
   background-color: #ddd;
 } 
 
-
+.errorMsg{
+  font-size: 40px;
+  padding: 250px 50px;
+  text-align: center;
+  color: rgba(215, 100, 51, 0.839);
+}
 
 
 

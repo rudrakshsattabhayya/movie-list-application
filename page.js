@@ -84,7 +84,7 @@ const fetchMovies = async (keyword, pageNumber) => {
         localStorage.setItem("moviesList", JSON.stringify(movies));
         localStorage.setItem("numOfPages", JSON.stringify(pages));
       } else {
-        localStorage.setItem("errorStatus", JSON.stringify(false));
+        localStorage.setItem("errorStatus", JSON.stringify(true));
         localStorage.setItem("errorMsg", JSON.stringify(res.Error));
       }
     });
@@ -120,7 +120,7 @@ const fetchMovieDetails = async (id) => {
 
         localStorage.setItem("movieDetails", JSON.stringify(movieDetails));
       } else {
-        localStorage.setItem("errorStatus", JSON.stringify(false));
+        localStorage.setItem("errorStatus", JSON.stringify(true));
         localStorage.setItem("errorMsg", JSON.stringify(res.Error));
       }
     });
@@ -260,6 +260,12 @@ const updatePagination = (arrow) => {
 
   document.getElementById("pagination").innerHTML = paginationHTML;
   addFunctionalities();
+  let error = JSON.parse(localStorage.getItem("errorStatus"));
+  let errorMsg = JSON.parse(localStorage.getItem("errorMsg"));
+  if(error){
+    let errorHTMl = `<div class="errorMsg">Error: ${errorMsg}</div>`;
+    document.getElementById("mainContainer").innerHTML = errorHTMl;
+  }
 };
 
 const updateMoviesListHTML = () => {
@@ -284,8 +290,15 @@ const updateMoviesListHTML = () => {
 
   document.getElementById("mainContainer").innerHTML =
     movieListPageTopHTML + movieListItems + movieListPageBottomHTML;
-  updatePagination();
+
+    updatePagination();
+  let error = JSON.parse(localStorage.getItem("errorStatus"));
+  let errorMsg = JSON.parse(localStorage.getItem("errorMsg"));
   addFunctionalities();
+  if(error){
+    let errorHTMl = `<div class="errorMsg">Error: ${errorMsg}</div>`;
+    document.getElementById("mainContainer").innerHTML = errorHTMl;
+  }
 };
 
 const searchMovies = async (event) => {

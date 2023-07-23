@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Patrick+Hand+SC&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  font-family: "Gochi Hand", cursive;
+}
+
+body {
+    background-color: #FFD6A5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+#mainContainer {
+    width: 75%;
+    height: fit-content;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    border-radius: 30px;
+    
+}
+
+
+
+/* Adding Loader styles */
+
+.spinner {
+    text-align: center;
+    background: white;
+    padding: 300px 0;
+    border-radius: 30px;
+    z-index: 99;
+    }
+    
+    .spinner > div {
+      width: 18px;
+      height: 18px;
+      background: linear-gradient(
+        90deg
+        , #ede9e0 25%, #FFD6A5 100%);
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+    
+    .spinner .bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+    
+    .spinner .bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+    .spinner-text{
+      font-size: 13px;
+      padding: 10px;
+      display: block;
+      font-weight: 700;
+      position: fixed;
+      bottom: 10%;
+      z-index: 999;
+      text-align: center;
+      left: calc(50% - 170px);
+    }
+  
+    @-webkit-keyframes sk-bouncedelay {
+      0%, 80%, 100% { -webkit-transform: scale(0) }
+      40% { -webkit-transform: scale(1.0) }
+    }
+    
+    @keyframes sk-bouncedelay {
+      0%, 80%, 100% { 
+        -webkit-transform: scale(0);
+        transform: scale(0);
+      } 40% { 
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+      }
+    }
+
+
+#movieList{
+    display: flex;
+    flex-direction: column;
+}
+
+#movieListTitle {
+    padding: 10px;
+    text-align: center;
+    font-size: 37px;
+    text-decoration: underline;
+}
+
+/* #movieListRowHeading{
+    display: flex;
+    justify-content: space-around;
+    font-size: 30px;
+    padding-top: 10px;
+    text-decoration: underline;
+} */
+
+#movieListItemsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    padding-bottom: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+.movieListItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 180px;
+    cursor: pointer;
+    /* padding: 5px; */
+    font-size: 25px;
+    margin: 10px;
+    border-radius: 20px;
+    --shadow: 1px 1px 1px 1px rgb(0 0 0 / 0.25);
+    box-shadow: var(--shadow);
+    --shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+.movieListPoster{
+    padding-top: 15px;
+    align-self: center;
+    width: 145px;
+}
+
+.movieListTitle{
+    padding: 5px;
+    text-align: center;
+}
+
+#searchbar {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  padding: 1px 5px;
+  border: 1.5px solid rgba(128, 128, 128, 0.507);
+  border-radius: 30px;
+  width: 50%;
+  height: 30px;
+}
+
+#searchbar img {
+  height: 19px;
+  width: 19px;
+  align-self: center;
+  cursor: pointer;
+}
+
+#searchbar input {
+  font-size: 18px;
+  width: 100%;
+  border: 0;
+  outline: none;
+}
+
+#paginationContainer{
+  padding: 7px 0;
+  font-size: 18px;
+}
+
+#pagination {
+  margin: 0;
+  padding: 0;
+  text-align: center
+}
+#pagination li {
+  display: inline;
+  cursor: pointer;
+}
+#pagination li a {
+   display: inline-block;
+  text-decoration: none;
+  padding: 5px 10px;
+  color: #000;
+  border-radius: 5px;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s
+    
+}
+#pagination li a.active {
+  background-color: #cf8252dd;
+  color: #fff
+}
+#pagination li a:hover:not(.active) {
+  background-color: #ddd;
+} 

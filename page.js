@@ -6,6 +6,7 @@ var movieDetails = {};
 var searchKeyword="";
 var commentText = "";
 var starRating = 0;
+var userCommentAndRatings = {};
 const loader = `<div class="spinner">
   <div class="bounce1"></div>
   <div class="bounce2"></div>
@@ -34,29 +35,29 @@ const movieListPageBottomHTML = `
 const starInput = `
 <div class="rating">
 <label>
-  <input type="radio" name="stars" value="1" />
+  <input id="star1" type="radio" name="stars" value="1" />
   <span class="icon">★</span>
 </label>
 <label>
-  <input type="radio" name="stars" value="2" />
+  <input id="star2" type="radio" name="stars" value="2" />
   <span class="icon">★</span>
   <span class="icon">★</span>
 </label>
 <label>
-  <input type="radio" name="stars" value="3" />
+  <input id="star3" type="radio" name="stars" value="3" />
   <span class="icon">★</span>
   <span class="icon">★</span>
   <span class="icon">★</span>   
 </label>
 <label>
-  <input type="radio" name="stars" value="4" />
+  <input id="star4" type="radio" name="stars" value="4" />
   <span class="icon">★</span>
   <span class="icon">★</span>
   <span class="icon">★</span>
   <span class="icon">★</span>
 </label>
 <label>
-  <input type="radio" name="stars" value="5" />
+  <input id="star5" type="radio" name="stars" value="5" />
   <span class="icon">★</span>
   <span class="icon">★</span>
   <span class="icon">★</span>
@@ -100,6 +101,7 @@ const fetchMovieDetails = async (id) => {
                 Poster: res.Poster,
                 Released: res.Released,
                 Runtime: res.Runtime,
+                imdbID: res.imdbID,
                 Plot: res.Plot,
                 Genre: res.Genre,
                 Director: res.Director,
@@ -144,8 +146,18 @@ const handleEnterInSeachbar = async (event) => {
 
 const handleComment = (event) => {
     let text = event.target.value;
+    let movieDetail = JSON.parse(localStorage.getItem("movieDetails"));
+    let imdbID = movieDetail.imdbID;
     commentText = text;
-    localStorage.setItem("commentText", commentText);
+    if( userCommentAndRatings[imdbID]){
+        userCommentAndRatings[imdbID].commentText = commentText;
+    }else{
+        userCommentAndRatings[imdbID] = {
+            commentText: commentText
+        }
+    }
+    userCommentAndRatings[imdbID].commentText = commentText;
+    localStorage.setItem("userCommentAndRatings", JSON.stringify(userCommentAndRatings));
 }
 
 const viewMovieDetails = async (event) => {
@@ -181,7 +193,16 @@ const addFunctionalitiesForMovieDetails = () => {
 
   radioInputs.forEach(function(radio) {
     radio.addEventListener('change', function() {
-      console.log('New star rating: ' + this.value);
+        let imdbID = JSON.parse(localStorage.getItem("movieDetails")).imdbID;
+      starRating = this.value;
+      if( userCommentAndRatings[imdbID]){
+        userCommentAndRatings[imdbID].starRating = starRating;
+    }else{
+        userCommentAndRatings[imdbID] = {
+            starRating: starRating
+        }
+    }
+    localStorage.setItem("userCommentAndRatings", JSON.stringify(userCommentAndRatings));
     });
   });
 
@@ -258,36 +279,34 @@ const intitialize = async () => {
     }else{
         searchKeyword = localStorage.getItem("searchKeyword");
     }
-    if(!localStorage.getItem("commentText")){
-        localStorage.setItem("commentText", JSON.stringify(commentText));
-    }else{
-        commentText = localStorage.getItem("commentText");
-    }
-    if(!localStorage.getItem("starRating")){
-        localStorage.setItem("starRating", JSON.stringify(starRating));
-    }else{
-        starRating = JSON.parse(localStorage.getItem("starRating"));
-    }
     if(!localStorage.getItem("movieDetails")){
         localStorage.setItem("movieDetails", JSON.stringify(movieDetails));
     }else{
         movieDetails = JSON.parse(localStorage.getItem("movieDetails"));
     }
+    if(!localStorage.getItem("userCommentAndRatings")){
+        localStorage.setItem("userCommentAndRatings", JSON.stringify(userCommentAndRatings));
+    }else{
+        userCommentAndRatings = JSON.parse(localStorage.getItem("userCommentAndRatings"));
+    }
     
     localStorage.setItem("pageNum", JSON.stringify(1));
-    // await fetchMovies("marvel", 1);
+    await fetchMovies("marvel", 1);
     updateMoviesListHTML();
 
 }
 
-
-
-
-
-
-
-
 const updateMovieDetailsHTML = () => {
+    let imdbID = movieDetails.imdbID;
+    if(userCommentAndRatings[imdbID]){
+        if(userCommentAndRatings[imdbID].commentText){
+            commentText = userCommentAndRatings[imdbID].commentText
+        }
+
+        if(userCommentAndRatings[imdbID].starRating){
+            starRating = userCommentAndRatings[imdbID].starRating;
+        }
+    }
     const upperHTML =`
     <div id="movieDetailsMainContainer">
             <div id="titleMovieDetails">${movieDetails.Title}</div>
@@ -303,14 +322,14 @@ const updateMovieDetailsHTML = () => {
             </div>
             <div id="yourComment">
                 <label>Your Comment: </label>
-                <input id="commentInput" type="text-area" value="${commentText}" placeholder="Write your Review..." />
+                <input id="commentInput" name="" type="text-area" value="${commentText}" placeholder="Write your Review..." />
             </div>
         </div>`;
 
     let movieDetailsItemsHTML = "";
 
     for(let key in  movieDetails) {
-        if(key !== "Title" && key !== "Poster"){
+        if(key !== "Title" && key !== "Poster" && key!=="imdbID"){
             movieDetailsItemsHTML += `
             <div class="movieDetailsItem">
                 <div class="movieDetailsItemHeading">${key}:</div>
@@ -321,6 +340,11 @@ const updateMovieDetailsHTML = () => {
 
     const totalHTML = upperHTML + movieDetailsItemsHTML + lowerHTML;
     document.getElementById("mainContainer").innerHTML = totalHTML;
+    if(starRating>0){
+        var radioBtn = document.getElementById(`star${starRating}`);
+        radioBtn.checked = true;
+    }
+
     addFunctionalitiesForMovieDetails();
 }
 

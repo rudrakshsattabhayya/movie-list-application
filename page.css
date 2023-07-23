@@ -210,3 +210,159 @@ body {
 #pagination li a:hover:not(.active) {
   background-color: #ddd;
 } 
+
+
+
+
+
+#movieDetailsMainContainer{
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding: 10px;
+}
+
+#titleMovieDetails{
+  padding: 15px 0;
+  font-size: 40px;
+  align-self: center;
+  text-align: center;
+  text-decoration: underline;
+}
+
+#movieDetailsSection{
+  display: flex;
+  align-self: center;
+  padding: 20px;
+  border-radius: 0px;
+  width: 90%;
+    --shadow: 0.3px 0.3px 0.3px 0.3px rgba(55, 51, 51, 0.005);
+    box-shadow: var(--shadow);
+    --shadow: rgba(78, 65, 65, 0.16) 0px 10px 36px 0px, rgba(57, 53, 53, 0.06) 0px 0px 0px 1px;
+}
+
+@media (max-width: 900px) {
+  #movieDetailsSection{
+    flex-direction: column;
+  }
+  #movieDetails{
+    margin-top: 15px;
+  }
+}
+
+#movieDetailsSection img {
+  /* min-width: 300px; */
+  padding: 0 20px;
+}
+
+.movieDetailsItem{
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 5px;
+}
+
+.movieDetailsItemHeading{
+  font-size: 25px;
+  text-decoration: underline;
+  padding-right: 10px;
+}
+
+.movieDetailsItemValue{
+  align-self: center;
+}
+
+.userInputMovieDetails{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+}
+
+#movieDetailsMainContainer label{
+  font-size: 30px;
+  text-decoration: underline;
+  align-self: center;
+}
+
+#yourComment{
+  display: flex;
+  flex-direction: column;
+}
+
+#yourComment input{
+  border: 1px solid grey;
+  align-self: center;
+  border-radius: 5px;
+  width: 80%;
+  height: 50px;
+  padding: 20px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.rating {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: rgb(252, 227, 5);
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px rgb(252, 227, 5);
+}
